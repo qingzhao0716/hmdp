@@ -50,7 +50,7 @@ public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> i
         if (CollectionUtil.isEmpty(shopTypes)) {
             stringRedisTemplate.delete(CACHE_SHOP_TYPE_KEY);
             // 存入一个空 List
-            stringRedisTemplate.opsForList().leftPushAll(CACHE_SHOP_TYPE_KEY, new ArrayList<>());
+            stringRedisTemplate.opsForList().rightPushAll(CACHE_SHOP_TYPE_KEY, new ArrayList<>());
             stringRedisTemplate.expire(CACHE_SHOP_TYPE_KEY, CACHE_NULL_TTL, TimeUnit.MINUTES);
             // 返回空列表
             return Result.ok(new ArrayList<>());
@@ -60,7 +60,7 @@ public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> i
         List<String> shopTypeCache = shopTypes.stream()
                 .map(JSONUtil::toJsonStr)
                 .collect(Collectors.toList());
-        stringRedisTemplate.opsForList().leftPushAll(CACHE_SHOP_TYPE_KEY,shopTypeCache);
+        stringRedisTemplate.opsForList().rightPushAll(CACHE_SHOP_TYPE_KEY,shopTypeCache);
         stringRedisTemplate.expire(CACHE_SHOP_TYPE_KEY,CACHE_SHOP_TYPE_TTL,TimeUnit.MINUTES);
         // 7.返回
         return Result.ok(shopTypes);
