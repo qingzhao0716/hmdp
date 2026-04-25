@@ -95,7 +95,7 @@ class HmDianPingApplicationTests {
             stringRedisTemplate.expire(tokenKey, 30, TimeUnit.MINUTES);
         }
         Set<String> keys = stringRedisTemplate.keys(LOGIN_USER_KEY + "*");
-        @Cleanup FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "\\tokens. txt");
+        @Cleanup FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "\\tokens.txt");
         @Cleanup BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         assert keys != null;
         for (String key : keys) {
